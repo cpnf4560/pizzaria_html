@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Pizzaria do Carlos - UFCD 10790</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/4952/4952486.png">
+    <link rel="stylesheet" href="css/logo.css">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background: #ebffe6; 
+            margin: 0; 
+        }
+        main { 
+            max-width: 500px; 
+            margin: 40px auto; 
+            background: #fff; 
+            border-radius: 12px; 
+            box-shadow: 0 0 10px #ace3b2; 
+            padding: 24px; 
+        }
+        
+        .page { display: none; }
+        .page.active { display: block; }
+        
+        h2 { 
+            color: #00994d; 
+            margin-top: 0; 
+            text-align: center; 
+        }
+        
+        .form-group { 
+            margin-bottom: 20px; 
+        }
+        
+        .form-group label { 
+            display: block; 
+            margin-bottom: 5px; 
+            font-weight: bold; 
+            color: #333; 
+        }
+        
+        .form-group input { 
+            width: 100%; 
+            padding: 10px; 
+            border: 2px solid #b7d6b7; 
+            border-radius: 6px; 
+            font-size: 16px; 
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus { 
+            border-color: #00994d; 
+            outline: none; 
+        }
+        
+        .btn { 
+            width: 100%; 
+            padding: 12px; 
+            border: none; 
+            border-radius: 6px; 
+            background: #00994d; 
+            color: #fff; 
+            font-weight: bold; 
+            cursor: pointer; 
+            font-size: 16px; 
+            margin-bottom: 10px;
+            transition: background 0.3s ease;
+        }
+        
+        .btn:hover { 
+            background: #007a3d; 
+        }
+        
+        .btn-secondary { 
+            background: #f39c12; 
+        }
+        
+        .btn-secondary:hover { 
+            background: #e67e22; 
+        }
+        
+        .btn-demo { 
+            background: #3498db; 
+        }
+        
+        .btn-demo:hover { 
+            background: #2980b9; 
+        }
+        
+        .alert { 
+            padding: 12px; 
+            border-radius: 6px; 
+            margin-bottom: 20px; 
+            display: none; 
+        }
+        
+        .alert.error { 
+            background: #f8d7da; 
+            color: #721c24; 
+            border: 1px solid #f5c6cb; 
+        }
+        
+        .alert.success { 
+            background: #d4edda; 
+            color: #155724; 
+            border: 1px solid #c3e6cb; 
+        }
+        
+        .welcome-message { 
+            text-align: center; 
+            padding: 20px; 
+        }
+        
+        .welcome-message h3 { 
+            color: #00994d; 
+            margin-bottom: 10px; 
+        }
+        
+        .user-info { 
+            background: #f8f9fa; 
+            padding: 15px; 
+            border-radius: 6px; 
+            margin: 20px 0; 
+        }
+        
+        .user-info strong { 
+            color: #00994d; 
+        }
+        
+        .links { 
+            text-align: center; 
+            margin-top: 20px; 
+        }
+        
+        .links a { 
+            color: #00994d; 
+            text-decoration: none; 
+            margin: 0 10px; 
+        }
+        
+        .links a:hover { 
+            text-decoration: underline; 
+        }
+        
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        
+        .language-switcher button {
+            background: #fff;
+            border: 2px solid #00994d;
+            color: #00994d;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .language-switcher button:hover {
+            background: #00994d;
+            color: #fff;
+        }
+        
+        .exit-confirm {
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Seletor de idioma -->
+    <div class="language-switcher">
+        <button id="lang-btn" onclick="toggleLanguage()">🇬🇧 EN</button>
+    </div>
+
+    <main>
+        <!-- Logo será inserido automaticamente aqui -->
+        
+        <!-- Página Inicial -->
+        <div id="page-home" class="page active">
+            <h2 data-text="initial_title">Sistema de Login - UFCD 10790</h2>
+            <p style="text-align: center; margin-bottom: 30px;" data-text="welcome_message">
+                Bem-vindo ao sistema da Pizzaria do Carlos!
+            </p>
+            
+            <button class="btn" onclick="showLogin()" data-text="registered_user">
+                🔑 Utilizador Registado
+            </button>
+            <button class="btn btn-secondary" onclick="showRegister()" data-text="register">
+                📝 Registar
+            </button>
+            <button class="btn btn-demo" onclick="goToDemo()" data-text="demo">
+                🍕 Demo (Sem Login)
+            </button>
+        </div>
+
+        <!-- Página Login -->
+        <div id="page-login" class="page">
+            <h2 data-text="login_title">Iniciar Sessão</h2>
+            
+            <div id="login-alert" class="alert"></div>
+            
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username" data-text="username">Username:</label>
+                    <input type="text" id="username" name="username" required 
+                           placeholder="Digite o seu username">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password" data-text="password">Password:</label>
+                    <input type="password" id="password" name="password" required 
+                           placeholder="Digite a sua password">
+                </div>
+                
+                <button type="submit" class="btn" data-text="login_btn">
+                    🔑 Entrar
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="showHome()" data-text="back">
+                    ← Voltar
+                </button>
+            </form>
+            
+            <div class="links">
+                <p style="font-size: 14px; color: #666;" data-text="test_credentials">
+                    Credenciais de teste:<br>
+                    <strong>Username:</strong> user | <strong>Password:</strong> password<br>
+                    <strong>Username:</strong> admin | <strong>Password:</strong> admin
+                </p>
+            </div>
+        </div>
+
+        <!-- Página Registo -->
+        <div id="page-register" class="page">
+            <h2 data-text="register_title">Registar Novo Utilizador</h2>
+            
+            <div id="register-alert" class="alert"></div>
+            
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="reg-username" data-text="username">Username:</label>
+                    <input type="text" id="reg-username" name="username" required 
+                           placeholder="Escolha um username (min. 3 caracteres)">
+                </div>
+                
+                <div class="form-group">
+                    <label for="reg-password" data-text="password">Password:</label>
+                    <input type="password" id="reg-password" name="password" required 
+                           placeholder="Escolha uma password (min. 6 caracteres)">
+                </div>
+                
+                <div class="form-group">
+                    <label for="reg-name" data-text="full_name">Nome Completo:</label>
+                    <input type="text" id="reg-name" name="name" required 
+                           placeholder="Digite o seu nome completo">
+                </div>
+                
+                <button type="submit" class="btn" data-text="register_btn">
+                    📝 Registar
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="showHome()" data-text="back">
+                    ← Voltar
+                </button>
+            </form>
+        </div>
+
+        <!-- Página Bem-vindo -->
+        <div id="page-welcome" class="page">
+            <div class="welcome-message">
+                <h3 data-text="welcome_title">🎉 Bem-vindo!</h3>
+                <p data-text="login_success">Login realizado com sucesso!</p>
+                
+                <div id="user-info" class="user-info">
+                    <!-- Informações do utilizador serão inseridas aqui -->
+                </div>
+                
+                <button class="btn" onclick="goToPizzaria()" data-text="go_to_pizzeria">
+                    🍕 Ir para a Pizzaria
+                </button>
+                <button class="btn btn-secondary" onclick="logout()" data-text="logout">
+                    🚪 Sair
+                </button>
+            </div>
+        </div>
+
+        <!-- Página Confirmação de Saída -->
+        <div id="page-exit" class="page">
+            <div class="exit-confirm">
+                <h3 data-text="exit_title">Sair da Aplicação</h3>
+                <p data-text="exit_question">Deseja mesmo sair?</p>
+                
+                <button class="btn" onclick="confirmExit()" data-text="yes">
+                    ✅ Sim
+                </button>
+                <button class="btn btn-secondary" onclick="cancelExit()" data-text="no">
+                    ❌ Não
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/logo-component.js"></script>
+    <script src="js/translations.js"></script>
+    <script src="js/login-system.js"></script>
+</body>
+</html>
